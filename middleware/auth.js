@@ -6,17 +6,15 @@ const jwt = require('jsonwebtoken');
 // verifyToken method.
 const verifyToken = async (req, res, next) => {
   // getting the token from either the body, query parameters or headers
-  const token = req.body.token || req.query.token || req.headers['x-access-token'];
+  const authHeader= req.headers['authorization'];
 
-  //check if bearer is undefined
-  if(typeof token !== 'undefined') {
-    // since the token will be Bearer <token>, we need to split and get the token alone.
-    const bearer = token.split(' ');
-    // get token from the array formed above.
-    const bearerToken = bearer[1];
-    console.log(bearerToken)
+  const token = authHeader.split(' ')[1];
+
+  if(token) {
+
+    
     try {
-        const data = await jwt.verify(bearerToken, 'secretkey')
+        const data = await jwt.verify(token, 'secretkey')
         req.user = data;
 
         next();      
@@ -26,7 +24,7 @@ const verifyToken = async (req, res, next) => {
     }
     
   } else {
-    res.status(403).json({ message: "forbidden" });
+    res.status(403).json({ message: "forbidden1" });
   }
 
 }

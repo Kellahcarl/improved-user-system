@@ -9,7 +9,6 @@ const encryptPassword = require('../helpers');
 const signUpHandler = async (req, res) => {
   const { firstname, lastname, email, password  } = req.body;
   // console.log(firstname,lastname,email,password)
-  console.log(req.body)
 
   const encrypted_password = await encryptPassword(password);
   const { recordset } = await db.query(
@@ -67,7 +66,7 @@ const signInHandler = async (req, res) => {
 const getUsersHandler = async (req, res) => {
 
   const { recordset } = await db.query(`SELECT * FROM [normalUsers].[users];`);
-  console.log(recordset);
+  
   res.send({ recordset });
 
 }
